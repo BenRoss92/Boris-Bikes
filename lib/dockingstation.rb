@@ -1,8 +1,7 @@
 require './lib/bike'
 
 class DockingStation
-  attr_reader :bikes
-  attr_reader :capacity
+  attr_reader :bikes, :capacity, :broken_bikes
   DEFAULT_CAPACITY = 20
 
   def initialize(capacity = DEFAULT_CAPACITY)
