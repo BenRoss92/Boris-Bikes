@@ -26,9 +26,8 @@ class DockingStation
     @bikes << bike
   end
 
-  def group_broken
-    broken_bikes = @bikes.find_all { |bike| bike.working? }
-    broken_bikes
+  def group_broken(bikes_from_station)
+    @broken_bikes = bikes_from_station.find_all { |bike| !bike.working? }
   end
 
 private

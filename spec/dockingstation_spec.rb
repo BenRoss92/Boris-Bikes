@@ -57,7 +57,7 @@ describe DockingStation do
     bike2.report_broken
     subject.dock_bike(bike1)
     subject.dock_bike(bike2)
-    expect((subject.bikes).group_broken).to include(bike1, bike2)
+    expect(subject.group_broken(subject.bikes)).to include(bike1, bike2)
   end
 
 end
