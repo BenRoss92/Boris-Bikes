@@ -26,6 +26,11 @@ class DockingStation
     @bikes << bike
   end
 
+  def group_broken
+    broken_bikes = @bikes.find_all { |bike| bike.working? }
+    broken_bikes
+  end
+
 private
 
   def full?
