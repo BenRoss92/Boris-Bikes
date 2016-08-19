@@ -50,4 +50,12 @@ describe DockingStation do
     expect{subject.release_bike}.to raise_error("broken bike")
   end
 
+  it "check if there are broken bikes docked in docking station and group them in an array" do
+    bike1 = Bike.new
+    bike2 = Bike.new
+    bike1.report_broken
+    bike2.report_broken
+    expect((subject.bikes).group_broken).to include(bike1, bike2)
+  end
+
 end
