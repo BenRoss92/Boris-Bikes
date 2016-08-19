@@ -2,26 +2,25 @@ require 'dockingstation'
 
 describe DockingStation do
 
-  let(:bike) { double :bike}
+  let(:bike) { double :bike }
 
-  it {expect(subject).to respond_to(:release_bike)}
-  it {expect(subject).to respond_to(:dock_bike).with(1).argument}
+  # it {expect(subject).to respond_to(:release_bike)}
+  # it {expect(subject).to respond_to(:dock_bike).with(1).argument}
+
   it "docks something" do
     #We want to return the bike we dock
     expect(subject.dock_bike(bike)).to include bike #change eq to include? bike
   end
 
-  it "raises empty exceptions" do
+  it "if docking station is empty, raise an error" do
     expect{subject.release_bike}.to raise_error("no bikes")
   end
 #currently tests anytime relseasing a bike an error is raised. if too many bikes are taken, report back empty.
   #so dock cannot be full but can be empty
 
   it "only allows docking up to a certain capacity then throws full error" do
-    ds = DockingStation.new
-
-    (ds.capacity).times {ds.dock_bike(bike)}
-    expect {ds.dock_bike(bike)}.to raise_error("full!")
+    (subject.capacity).times {subject.dock_bike(bike)}
+    expect {subject.dock_bike(bike)}.to raise_error("full!")
   end
 
   #test initializing DockingStation with capacity argument
@@ -35,12 +34,18 @@ describe DockingStation do
   end
 
   it "docking stations accepts broken bike" do #working bikes can already be docked (tested above)
-    allow(bike).to receive(:report_broken).and_return(false)
+    allow(bike).to receive(:report_broken) { false }
     expect(subject.dock_bike(bike)).to include bike
   end
 
+  it "should release a working bike" do
+    allow(bike).to receive(:working?) { true }
+    subject.dock_bike(bike)
+    expect(subject.release_bike).to be_empty
+  end
+
   it "docking stations do not release broken bikes" do
-    allow(bike).to receive(:working?).and_return(false)
+    allow(bike).to receive(:working?) { false }
     subject.dock_bike(bike)
     expect{subject.release_bike}.to raise_error("broken bike")
   end
